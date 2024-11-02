@@ -11,6 +11,10 @@ void recursiveParts(int pagesAllocation[]) {
     
     if (pagesAllocation[s] == 0) {
         for (int j = s; j < s + length; j++) {
+            if (j >= 50) {  // Check to avoid going out of bounds
+                printf("Reached end of memory, can't allocate further.\n");
+                break;
+            }
             if (pagesAllocation[j] == 0) {
                 pagesAllocation[j] = 1;
                 printf("%d------>%d\n", j, pagesAllocation[j]);
@@ -34,7 +38,7 @@ void recursiveParts(int pagesAllocation[]) {
     if (c == 1)
         recursiveParts(pagesAllocation);
     else
-        exit(0);
+        return;  // Use return instead of exit(0) to end recursion cleanly
 }
 
 int main() {
@@ -42,7 +46,7 @@ int main() {
     for (int i = 0; i < 50; i++)
         pagesAllocation[i] = 0;
 
-    printf("Enter the quantity of provided blocks: ");
+    printf("Enter the quantity of initially allocated blocks: ");
     scanf("%d", &p1);
     printf("Enter the indices of the initially allocated blocks: ");
     for (int i = 0; i < p1; i++) {
