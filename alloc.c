@@ -61,7 +61,6 @@ struct file *allocate_file(struct disk *d, char *name, int size) {
 }
 
 void free_file(struct disk *d, struct file *f) {
-    // Mark all the blocks as free
     for (int i = f->start_block; i < f->start_block + f->size; i++) {
         d->used_blocks[i] = 0;
         d->free_blocks[i] = 1;
@@ -78,47 +77,41 @@ void print_disk_status(struct disk *d) {
 }
 
 int main() {
-    // Initialize the disk with more blocks
     struct disk d;
-    init_disk(&d, 15);  // Increase from 10 to 15 blocks
-
-    // Allocate space for the first file
+    init_disk(&d, 15);  
     struct file *f1 = allocate_file(&d, "file1", 3);
     if (f1 == NULL) {
         printf("Could not allocate space for file1\n");
         exit(1);
     }
-    print_disk_status(&d); // Show status after allocation
+    print_disk_status(&d);
 
-    // Allocate space for the second file
     struct file *f2 = allocate_file(&d, "file2", 5);
     if (f2 == NULL) {
         printf("Could not allocate space for file2\n");
         exit(1);
     }
-    print_disk_status(&d); // Show status after allocation
+    print_disk_status(&d); 
 
-    // Free the first file
+
     free_file(&d, f1);
-    print_disk_status(&d); // Show status after deallocation
+    print_disk_status(&d); 
 
-    // Allocate space for the third file
+
     struct file *f3 = allocate_file(&d, "file3", 4);
     if (f3 == NULL) {
         printf("Could not allocate space for file3\n");
         exit(1);
     }
-    print_disk_status(&d); // Show status after allocation
+    print_disk_status(&d); 
 
-    // Free the second file
+    
     free_file(&d, f2);
-    print_disk_status(&d); // Show status after deallocation
+    print_disk_status(&d); 
 
-    // Free the third file
     free_file(&d, f3);
-    print_disk_status(&d); // Show final status
+    print_disk_status(&d); 
 
-    // Clean up
     free(d.used_blocks);
     free(d.free_blocks);
 
